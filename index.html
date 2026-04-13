@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>コメント枠ジェネレーター</title>
+
+  <!-- TODO: デプロイ後にURLを実際のものに書き換える -->
+  <meta name="description" content="配信切り抜き用コメント画像を自動生成。テンプレ画像にコメントを重ねてPNGで書き出せる無料ツール。" />
+
+  <!-- OGP -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="コメント枠ジェネレーター" />
+  <meta property="og:description" content="配信切り抜き用コメント画像を自動生成。テンプレ画像にコメントを重ねてPNGで書き出せる無料ツール。" />
+  <meta property="og:url"         content="https://TODO.example.com/" />
+  <meta property="og:image"       content="https://TODO.example.com/ogp.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale"      content="ja_JP" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="コメント枠ジェネレーター" />
+  <meta name="twitter:description" content="配信切り抜き用コメント画像を自動生成。テンプレ画像にコメントを重ねてPNGで書き出せる無料ツール。" />
+  <meta name="twitter:image"       content="https://TODO.example.com/ogp.png" />
+
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <h1>コメント枠ジェネレーター</h1>
+      <p class="lead">テンプレ画像を読み込んでコメントを入力すると、枠内に収まるよう自動で折り返し・縮小してPNGで保存できます。</p>
+
+      <div class="section">
+        <h2>1. テンプレ画像</h2>
+        <div class="field">
+          <label for="bgUpload">枠画像をアップロード</label>
+          <input id="bgUpload" type="file" accept="image/*" />
+        </div>
+        <div class="hint">コメント枠だけのPNGや、配信画面のスクショでも使えます。</div>
+      </div>
+
+      <div class="section">
+        <h2>2. コメント本文</h2>
+        <div class="field">
+          <label for="commentText">コメント</label>
+          <textarea id="commentText">じっとしてて！
+その位置なら待った方がいいかも</textarea>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="nameText">名前</label>
+            <input id="nameText" type="text" value="@viewer_01" />
+          </div>
+          <div class="field">
+            <label for="nameSize">名前サイズ</label>
+            <input id="nameSize" type="number" value="28" min="10" max="100" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>3. コメント枠の位置</h2>
+        <div class="hint" style="margin-bottom:10px">プレビュー上でドラッグして枠を移動・リサイズできます。</div>
+        <div class="grid2">
+          <div class="field">
+            <label for="boxX">X</label>
+            <input id="boxX" type="number" value="160" />
+          </div>
+          <div class="field">
+            <label for="boxY">Y</label>
+            <input id="boxY" type="number" value="210" />
+          </div>
+          <div class="field">
+            <label for="boxW">幅</label>
+            <input id="boxW" type="number" value="720" />
+          </div>
+          <div class="field">
+            <label for="boxH">高さ</label>
+            <input id="boxH" type="number" value="220" />
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="padding">余白</label>
+            <input id="padding" type="number" value="22" />
+          </div>
+          <div class="field">
+            <label for="lineHeight">行間倍率</label>
+            <input id="lineHeight" type="number" value="1.25" step="0.05" min="1" max="2" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>4. 文字スタイル</h2>
+        <div class="grid2">
+          <div class="field">
+            <label for="maxFontSize">最大文字サイズ</label>
+            <input id="maxFontSize" type="number" value="54" min="10" max="200" />
+          </div>
+          <div class="field">
+            <label for="minFontSize">最小文字サイズ</label>
+            <input id="minFontSize" type="number" value="20" min="8" max="100" />
+          </div>
+          <div class="field">
+            <label for="fontWeight">太さ</label>
+            <select id="fontWeight">
+              <option value="400">標準</option>
+              <option value="700" selected>太字</option>
+              <option value="900">極太</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="fontFamily">フォント</label>
+            <select id="fontFamily">
+              <option value="&quot;Noto Sans JP Variable&quot;, &quot;Hiragino Sans&quot;, &quot;Yu Gothic&quot;, &quot;Meiryo&quot;, sans-serif" selected>Noto Sans JP</option>
+              <option value="&quot;Hiragino Sans&quot;, &quot;Yu Gothic&quot;, &quot;Meiryo&quot;, sans-serif">ゴシック</option>
+              <option value="&quot;Hiragino Maru Gothic ProN&quot;, &quot;Yu Gothic&quot;, &quot;Meiryo&quot;, sans-serif">丸ゴシック</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="textColor">本文色</label>
+            <input id="textColor" type="color" value="#3A2326" />
+          </div>
+          <div class="field">
+            <label for="nameColor">名前色</label>
+            <input id="nameColor" type="color" value="#DB6567" />
+          </div>
+        </div>
+        <label class="checkboxRow"><input id="showDebug" type="checkbox" /> 枠のガイドを表示</label>
+      </div>
+
+      <div class="section">
+        <h2>5. プリセット</h2>
+        <div class="field">
+          <label for="presetSelect">保存済みプリセット</label>
+          <select id="presetSelect"></select>
+        </div>
+        <div class="buttons">
+          <button id="presetLoadBtn">読み込み</button>
+          <button id="presetSaveBtn" class="secondary">保存</button>
+          <button id="presetDeleteBtn" class="secondary">削除</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>6. バッチ書き出し</h2>
+        <div class="field">
+          <label for="batchInput">コメント一覧（1行1件: @名前 本文）</label>
+          <textarea id="batchInput" placeholder="@viewer_01,じっとしてて！
+その位置なら待った方がいいかも
+
+@viewer_02,草
+
+@viewer_03,ここで合流しよう"></textarea>
+        </div>
+        <div class="hint">形式: <code>@名前,本文</code>（エントリー間は空行で区切る）。本文は改行を含めることができます。カンマを含む行がないブロックはスキップされます。</div>
+        <div class="buttons" style="margin-top:10px">
+          <button id="batchExportBtn">ZIPで書き出し</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>7. 操作</h2>
+        <div class="buttons">
+          <button id="renderBtn">再描画</button>
+          <button id="downloadBtn">PNGを書き出し</button>
+        </div>
+        <div class="hint">最初は座標をざっくり合わせて、あとで X / Y / 幅 / 高さ を詰めるのが早いです。</div>
+      </div>
+
+      <div class="section">
+        <h2>補足</h2>
+        <div class="small">
+          テンプレ画像の上に文字を確定配置する方式です。毎回同じ枠に、同じルールで崩れずに入れたい用途向けです。<br />
+          ビルド後は index.html 1ファイルで動作します（オフライン対応）。
+        </div>
+      </div>
+    </aside>
+
+    <main class="preview">
+      <div class="canvasWrap">
+        <canvas id="canvas" width="1280" height="720"></canvas>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
