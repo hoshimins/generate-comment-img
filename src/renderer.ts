@@ -62,10 +62,8 @@ export function render(
   comment: CommentData,
   bgImage: HTMLImageElement | null,
 ): void {
-  // Clear
+  // Clear (透過を維持するため黒塗りはしない)
   ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
-  ctx.fillStyle = '#000';
-  ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
 
   // Background image (letterbox fit)
   if (bgImage) {
