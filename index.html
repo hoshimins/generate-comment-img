@@ -33,12 +33,32 @@
       <p class="lead">テンプレ画像を読み込んでコメントを入力すると、枠内に収まるよう自動で折り返し・縮小してPNGで保存できます。</p>
 
       <div class="section">
-        <h2>1. テンプレ画像</h2>
-        <div class="field">
-          <label for="bgUpload">枠画像をアップロード</label>
-          <input id="bgUpload" type="file" accept="image/*" />
+        <h2>0. モード</h2>
+        <div class="radioGroup">
+          <label class="radioRow">
+            <input type="radio" name="renderMode" value="overlay" checked />
+            オーバーレイ（テンプレ画像に文字を重ねる）
+          </label>
+          <label class="radioRow">
+            <input type="radio" name="renderMode" value="bubble" />
+            吹き出し（アイコン＋吹き出しを透過PNGで生成）
+          </label>
         </div>
-        <div class="hint">コメント枠だけのPNGや、配信画面のスクショでも使えます。</div>
+      </div>
+
+      <div class="section">
+        <h2>1. 画像</h2>
+        <!-- bgUpload and avatarUpload are always in DOM; their wrappers toggle visibility -->
+        <div class="field overlayOnly">
+          <label for="bgUpload">枠画像をアップロード（オーバーレイ）</label>
+          <input id="bgUpload" type="file" accept="image/*" />
+          <div class="hint">コメント枠だけのPNGや、配信画面のスクショでも使えます。</div>
+        </div>
+        <div class="field bubbleOnly">
+          <label for="avatarUpload">アバター画像</label>
+          <input id="avatarUpload" type="file" accept="image/*" />
+          <div class="hint">アップロードした画像が円形にクリップされてアイコンとして表示されます。</div>
+        </div>
       </div>
 
       <div class="section">
@@ -61,27 +81,34 @@
       </div>
 
       <div class="section">
-        <h2>3. コメント枠の位置</h2>
-        <div class="hint" style="margin-bottom:10px">プレビュー上でドラッグして枠を移動・リサイズできます。</div>
+        <h2>3. 位置・レイアウト</h2>
+        <div class="hint overlayOnly" style="margin-bottom:10px">プレビュー上でドラッグして枠を移動・リサイズできます。</div>
+        <div class="hint bubbleOnly" style="margin-bottom:10px">吹き出しはプレビュー上で自動センタリングされます。PNGは吹き出しサイズにぴったりで書き出されます。</div>
+
+        <!--
+          All inputs appear ONCE in the DOM.
+          Wrapper divs use overlayOnly/bubbleOnly to show/hide visually,
+          but the <input> elements are always accessible via getElementById().
+        -->
         <div class="grid2">
-          <div class="field">
+          <!-- X/Y: overlay only (bubble mode auto-centers) -->
+          <div class="field overlayOnly">
             <label for="boxX">X</label>
             <input id="boxX" type="number" value="160" />
           </div>
-          <div class="field">
+          <div class="field overlayOnly">
             <label for="boxY">Y</label>
             <input id="boxY" type="number" value="210" />
           </div>
-          <div class="field">
+          <!-- boxW / boxH: overlay only -->
+          <div class="field overlayOnly">
             <label for="boxW">幅</label>
             <input id="boxW" type="number" value="720" />
           </div>
-          <div class="field">
+          <div class="field overlayOnly">
             <label for="boxH">高さ</label>
             <input id="boxH" type="number" value="220" />
           </div>
-        </div>
-        <div class="grid2">
           <div class="field">
             <label for="padding">余白</label>
             <input id="padding" type="number" value="22" />
@@ -91,6 +118,45 @@
             <input id="lineHeight" type="number" value="1.25" step="0.05" min="1" max="2" />
           </div>
         </div>
+
+        <!-- Bubble-specific controls -->
+        <div class="grid2 bubbleOnly" style="margin-top:8px">
+          <div class="field">
+            <label for="bubbleMaxWidth">吹き出し幅</label>
+            <input id="bubbleMaxWidth" type="number" value="700" min="200" max="1100" />
+          </div>
+          <div class="field">
+            <label for="avatarSize">アバターサイズ</label>
+            <input id="avatarSize" type="number" value="100" min="40" max="200" />
+          </div>
+          <div class="field">
+            <label for="bubbleTailSide">アバター位置</label>
+            <select id="bubbleTailSide">
+              <option value="left">左</option>
+              <option value="right">右</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="bubbleBg">吹き出し塗り色</label>
+            <input id="bubbleBg" type="color" value="#FFFFFF" />
+          </div>
+          <div class="field">
+            <label for="bubbleBorderColor">枠線色</label>
+            <input id="bubbleBorderColor" type="color" value="#DB6567" />
+          </div>
+          <div class="field">
+            <label for="bubbleRadius">角丸</label>
+            <input id="bubbleRadius" type="number" value="40" min="0" max="80" />
+          </div>
+        </div>
+        <label class="checkboxRow bubbleOnly" style="margin-top:8px">
+          <input id="showBubbleName" type="checkbox" /> ユーザー名を表示
+        </label>
+
+        <!-- showDebug: always in DOM, wrapper hidden in bubble mode -->
+        <label class="checkboxRow overlayOnly" style="margin-top:8px">
+          <input id="showDebug" type="checkbox" /> 枠のガイドを表示
+        </label>
       </div>
 
       <div class="section">
@@ -129,7 +195,6 @@
             <input id="nameColor" type="color" value="#DB6567" />
           </div>
         </div>
-        <label class="checkboxRow"><input id="showDebug" type="checkbox" /> 枠のガイドを表示</label>
       </div>
 
       <div class="section">

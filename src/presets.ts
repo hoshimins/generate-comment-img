@@ -17,6 +17,14 @@ const DEFAULT_PRESET: Preset = {
     nameColor: '#DB6567',
     nameSize: 28,
     showDebug: false,
+    renderMode: 'overlay',
+    bubbleBg: '#FFFFFF',
+    bubbleBorderColor: '#DB6567',
+    bubbleTailSide: 'left',
+    avatarSize: 100,
+    bubbleMaxWidth: 700,
+    showBubbleName: false,
+    bubbleRadius: 40,
   },
 };
 

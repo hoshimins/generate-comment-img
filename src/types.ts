@@ -17,6 +17,14 @@ export interface RenderSettings {
   nameColor: string;
   nameSize: number;
   showDebug: boolean;
+  renderMode: 'overlay' | 'bubble';
+  bubbleBg: string;
+  bubbleBorderColor: string;
+  bubbleTailSide: 'left' | 'right';
+  avatarSize: number;
+  bubbleMaxWidth: number;
+  showBubbleName: boolean;
+  bubbleRadius: number;
 }
 
 export interface CommentData {
